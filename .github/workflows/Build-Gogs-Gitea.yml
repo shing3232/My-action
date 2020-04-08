@@ -1,0 +1,88 @@
+name: Build-Gogs&Gitea
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/Build-Gogs-Gitea.yml'
+  schedule:
+
+        - cron: 0 */2 * * *
+
+jobs:
+
+  build:
+    name: Build Gogs&Gitea
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.14
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.14
+      
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+
+    - name: Clone Gogs source and Build
+      if: always()
+      run: |
+        git clone https://github.com/gogs/gogs.git gogs
+        sudo apt update -qq
+        sudo apt install -y libpam0g-dev
+        cd gogs
+        node -v
+        go version
+        go build -tags "sqlite pam cert" -o gogs
+
+    - name: Upload Flies to Github Actions
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+       name: Gogs
+       path: gogs/gogs
+
+    - name: Upload Gogs's Binary Files to Main Download Station.
+      if: success()
+      run: |
+        cd gogs
+        zip -o Gogs.zip gogs
+        curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Software/Linux/Gogs" -F "file=@Gogs.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
+    
+    - name: Upload Gogs's Binary Files to CN Download Station.
+      if: success()
+      run: |
+            cd gogs
+            zip -o Gogs.zip gogs
+            curl --socks5 "${{ secrets.PROXY_ADDR }}" -U "${{ secrets.PROXY_USER }}" -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Software/Linux/Gogs" -F "file=@Gogs.zip" ${{ secrets.REMOTE_UPLOAD_PROCESSOR }}
+
+    - name: Clone Gitea source and Build
+      run: |
+        git clone https://github.com/go-gitea/gitea.git
+        cd gitea
+        node -v
+        go version
+        TAGS="bindata sqlite sqlite_unlock_notify" make build
+
+    - name: Upload Flies to Github Actions
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+       name: Gitea
+       path: gitea/gitea
+
+    - name: Upload Gitea's Binary Files to Main Download Station.
+      if: always()
+      run: |
+        cd gitea
+        zip -o Gitea.zip gitea
+        curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Software/Linux/Gitea" -F "file=@Gitea.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
+
+    - name: Upload Gitea's Binary Files to CN Download Station.
+      if: always()
+      run: |
+        cd gitea
+        zip -o Gitea.zip gitea
+        curl --socks5 "${{ secrets.PROXY_ADDR }}" -U "${{ secrets.PROXY_USER }}" -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Software/Linux/Gitea" -F "file=@Gitea.zip" ${{ secrets.REMOTE_UPLOAD_PROCESSOR }}
