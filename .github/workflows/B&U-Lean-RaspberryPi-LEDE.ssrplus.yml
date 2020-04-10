@@ -1,4 +1,4 @@
-name: Build-and-Upload-Lean's-RaspberryPi-LEDE
+name: Build-and-Upload-Lean's-RaspberryPi-ssrplus-LEDE
 
 on: 
   push:
@@ -6,7 +6,7 @@ on:
       - master
     paths:
       - 'lean-lede/rpi/.config'
-      - '.github/workflows/B&U-Lean-RaspberryPi-LEDE.yml'
+      - '.github/workflows/B&U-Lean-RaspberryPi-LEDE.ssrplus.yml'
   schedule:
         - cron: 0 */4 * * *
   watch:
