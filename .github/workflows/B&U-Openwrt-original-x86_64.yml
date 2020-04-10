@@ -36,7 +36,9 @@ jobs:
     - name: Clone source and install
       run: |
         git clone https://github.com/openwrt/openwrt
+        git clone https://github.com/coolsnowwolf/lede
         cd openwrt
+        cp -rf ../lede/package/lean/ package/lean
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
