@@ -39,6 +39,9 @@ jobs:
         git clone https://github.com/coolsnowwolf/lede
         cd openwrt
         cp -rf ../lede/package/lean/ package/lean
+        cp -rf ../lede/tools/upx/ tools/upx
+        cp -rf ../lede/tools/ucl/ tools/ucl
+        echo -e 'tools-y += ucl upx\n$(curdir)/upx/compile := $(curdir)/ucl/compile' >>tools/Makefile
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
