@@ -11,6 +11,7 @@ git clone https://github.com/openwrt-develop/luci-theme-atmaterial $packages_pat
 git clone https://github.com/vernesong/OpenClash $packages_path/OpenClash
 git clone https://github.com/tty228/luci-app-serverchan $packages_path/luci-app-serverchan
 git clone https://github.com/rufengsuixing/luci-app-adguardhome $packages_path/luci-app-adguardhome
+git clone https://github.com/fw876/helloworld $packages_path/helloworld
 git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git  $packages_path/luci-theme-argon
 
 # Modify default IP
