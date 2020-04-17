@@ -8,7 +8,7 @@ on:
       - 'lean-lede/rpi/.config'
       - '.github/workflows/B&U-Lean-RaspberryPi-LEDE.ssrplus.yml'
   schedule:
-        - cron: 0 */4 * * *
+        - cron: 30 */6 * * *
   watch:
       types: [started]
 
