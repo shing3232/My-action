@@ -7,7 +7,7 @@ on:
       - 'lean-lede/x86_64/.config'
       - '.github/workflows/B&U-Lean-x86_64-LEDE-ssrplus.yml'
   schedule:
-        - cron: 0 */4 * * *
+        - cron: 0 */6 * * *
 
 jobs:
   build:
