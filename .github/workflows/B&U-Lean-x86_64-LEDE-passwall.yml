@@ -1,4 +1,4 @@
-name: Build-and-Upload-Lean's-x86_64-LEDE-passwall
+name: Build-and-Upload-Lean's-x86_64-LEDE-passwall1
 on:
   push:
     branches: 
